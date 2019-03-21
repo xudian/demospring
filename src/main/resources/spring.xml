@@ -9,4 +9,10 @@
     <bean name="secondService" class="com.dingdong.service.SecondService"></bean>
 
 
+    <bean name="helloService" class="com.dingdong.service.impl.HelloServiceImpl">
+        <property name = "text" value = "hi,helloService" />
+        <property ref = "secondService" />
+    </bean>
+
+
 </beans>

@@ -18,7 +18,15 @@
     
 ## 5、step5-在bean中注入bean
 
-## 6、引入ApplicationContext
+## 6、step6-引入ApplicationContext
+
+## 7、step7--使用JDK动态代理实现AOP织入
+    Spring AOP的织入点是AopProxy，它包含一个方法Object getProxy()来获取代理后的对象。
+    在Spring AOP中，最重要的两个角色，就是MethodInterceptor和MethodInvocation（这两个角色都是AOP联盟的标准），
+    它们分别对应AOP中两个基本角色：Advice和Joinpoint。Advice定义了在切点指定的逻辑，而Joinpoint则代表切点。
+    Spring的AOP只支持方法级别的调用，所以其实在AopProxy里，我们只需要将MethodInterceptor放入对象的方法调用即可。
+    被代理对象为TargetSource，而AdvisedSupport就是保存TargetSource和MethodInterceptor的元数据对象。
+    这一步先实现一个基于JDK动态代理的JdkDynamicAopProxy，它可以对接口进行代理。于是我们就有了基本的织入功能。
     
               
 

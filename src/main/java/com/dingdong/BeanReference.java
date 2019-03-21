@@ -1,4 +1,4 @@
-package com.dingdong.beans;
+package com.dingdong;
 
 /**
  * @Title: BeanReference

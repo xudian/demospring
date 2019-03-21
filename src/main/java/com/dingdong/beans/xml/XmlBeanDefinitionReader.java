@@ -1,5 +1,6 @@
 package com.dingdong.beans.xml;
 
+import com.dingdong.BeanReference;
 import com.dingdong.beans.*;
 import com.dingdong.beans.io.ResourceLoader;
 import org.apache.commons.lang3.StringUtils;

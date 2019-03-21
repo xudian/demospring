@@ -1,7 +1,7 @@
 package com.dingdong.beans.factory;
 
 import com.dingdong.beans.BeanDefinition;
-import com.dingdong.beans.BeanReference;
+import com.dingdong.BeanReference;
 import com.dingdong.beans.PropertyValue;
 
 import java.lang.reflect.Field;
