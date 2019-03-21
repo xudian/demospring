@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans default-autowire="byName" default-lazy-init="false">
+
+    <bean name="service" class="com.dingdong.service.FirstService">
+        <property name = "text" value = "text--msg" />
+        <property ref = "secondService" />
+    </bean>
+
+    <bean name="secondService" class="com.dingdong.service.SecondService"></bean>
+
+
+</beans>
