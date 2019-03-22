@@ -3,6 +3,7 @@ package com.dingdong.aop;
 import com.dingdong.base.BaseTest;
 import com.dingdong.context.ClassPathXmlApplicationContext;
 import com.dingdong.interceptor.TargetInterceptor;
+import com.dingdong.service.FirstService;
 import com.dingdong.service.HelloService;
 import org.junit.Test;
 
@@ -36,5 +37,15 @@ public class TestInterceptor extends BaseTest {
         JdkDynamicAopProxy proxy = new JdkDynamicAopProxy(advised);
         HelloService helloServiceProxy = (HelloService) proxy.getProxy();
         helloServiceProxy.sayHello();
+    }
+
+
+    @Test
+    public void testPointcut() throws Exception {
+        String expression = "execution(* com.dingdong.service..*.*(..))";
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression(expression);
+        boolean matches = pointcut.getMethodMatcher().matches(FirstService.class.getDeclaredMethod("sayHello"),FirstService.class);
+        logger.info("matches:{}",matches);
     }
 }

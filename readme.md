@@ -29,7 +29,10 @@
     这一步先实现一个基于JDK动态代理的JdkDynamicAopProxy，它可以对接口进行代理。于是我们就有了基本的织入功能。
     
               
-
+## 8.step8-使用AspectJ管理切面
+    完成了织入之后，我们要考虑另外一个问题：对什么类以及什么方法进行AOP？对于“在哪切”这一问题的定义，我们又叫做“Pointcut”。
+    Spring中关于Pointcut包含两个角色：ClassFilter和MethodMatcher，分别是对类和方法做匹配。
+    Pointcut有很多种定义方法，例如类名匹配、正则匹配等，但是应用比较广泛的应该是和AspectJ表达式的方式。
     
 
     
