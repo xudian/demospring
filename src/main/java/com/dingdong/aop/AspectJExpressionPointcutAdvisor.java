@@ -16,6 +16,8 @@ public class AspectJExpressionPointcutAdvisor implements Advisor {
 
     private Advice advice;
 
+    private String expression;
+
     public Advice getAdvice() {
         return advice;
     }
@@ -28,7 +30,11 @@ public class AspectJExpressionPointcutAdvisor implements Advisor {
         this.advice = advice;
     }
 
-    public void setExperssion(String experssion) {
-        this.pointcut.setExpression(experssion);
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.pointcut.setExpression(expression);
     }
 }

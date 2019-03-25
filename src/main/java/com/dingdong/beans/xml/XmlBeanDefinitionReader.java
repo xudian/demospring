@@ -87,7 +87,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                         String ref = ele.getAttribute("ref");
                         if (StringUtils.isNotBlank(ref)) {
                             BeanReference beanReference = new BeanReference(ref);
-                            beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(ref,beanReference));
+                            beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name,beanReference));
                         } else {
                             throw new IllegalArgumentException("Configuration problem: <property> element for property '"
                                     + name + "' must specify a ref or value");

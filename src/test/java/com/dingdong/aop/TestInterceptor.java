@@ -21,21 +21,27 @@ public class TestInterceptor extends BaseTest {
     public void test() throws Exception{
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
         HelloService helloService = (HelloService)applicationContext.getBean("helloService");
-        helloService.sayHello();
 
         // FirstService in Aop
         // 1、设置被代理对象(Joinpoint)
         AdvisedSupport advised = new AdvisedSupport();
-        TargetSource targetSource = new TargetSource(HelloService.class,helloService);
+        TargetSource targetSource = new TargetSource(helloService,HelloService.class);
         advised.setTargetSource(targetSource);
 
         // 2、设置拦截器(Advice)
         TargetInterceptor interceptor = new TargetInterceptor();
         advised.setMethodInterceptor(interceptor);
 
+        String expression = "execution(* com.dingdong.service..*.*(..))";
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression(expression);
+
+        advised.setMethodMatcher(pointcut.getMethodMatcher());
+
         // 3、创建代理(Proxy)
         JdkDynamicAopProxy proxy = new JdkDynamicAopProxy(advised);
         HelloService helloServiceProxy = (HelloService) proxy.getProxy();
+        logger.info("proxyName:{}", helloService.getClass().getSimpleName());
         helloServiceProxy.sayHello();
     }
 
@@ -47,5 +53,16 @@ public class TestInterceptor extends BaseTest {
         pointcut.setExpression(expression);
         boolean matches = pointcut.getMethodMatcher().matches(FirstService.class.getDeclaredMethod("sayHello"),FirstService.class);
         logger.info("matches:{}",matches);
+    }
+
+    @Test
+    public void testProxy() {
+        try {
+            ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
+            HelloService helloService = (HelloService) applicationContext.getBean("helloService");
+            helloService.sayHello();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -11,11 +11,7 @@ import org.slf4j.LoggerFactory;
  * @Version 1.0
  * @Copyright 2018 All Rights Reserved
  */
-public class SecondService {
+public interface SecondService {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    public void sayWelcome(String text){
-        logger.info("输入的文本信息为:{}",text);
-    }
+    public void sayWelcome(String text);
 }

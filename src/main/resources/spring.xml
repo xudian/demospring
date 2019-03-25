@@ -3,16 +3,24 @@
 
     <bean name="service" class="com.dingdong.service.FirstService">
         <property name = "text" value = "text--msg" />
-        <property ref = "secondService" />
+        <property name = "secondService" ref = "secondService" />
     </bean>
 
-    <bean name="secondService" class="com.dingdong.service.SecondService"></bean>
+    <bean name="secondService" class="com.dingdong.service.impl.SecondServiceImpl"></bean>
 
 
     <bean name="helloService" class="com.dingdong.service.impl.HelloServiceImpl">
         <property name = "text" value = "hi,helloService" />
-        <property ref = "secondService" />
+        <property name="secondService" ref = "secondService" />
     </bean>
 
+    <bean name="targetInterceptor" class="com.dingdong.interceptor.TargetInterceptor"/>
+
+    <bean name="autoProxyCreator" class="com.dingdong.aop.AspectJAwareAdvisorAutoProxyCreator" />
+
+    <bean name="advisor" class="com.dingdong.aop.AspectJExpressionPointcutAdvisor">
+        <property name="advice" ref="targetInterceptor" />
+        <property name="expression" value="execution(* com.dingdong.service..*.*(..))" />
+    </bean>
 
 </beans>

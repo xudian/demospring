@@ -23,7 +23,7 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
     public ClassPathXmlApplicationContext(AbstractBeanFactory abstractBeanFactory, String configLocation) throws Exception {
         super(abstractBeanFactory);
         this.configLocation = configLocation;
-        refresh();
+        fresh();
     }
 
     public ClassPathXmlApplicationContext(String configLocation) throws Exception {
@@ -31,7 +31,7 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
     }
 
     @Override
-    public void refresh() throws Exception {
+    public void loadBeanDefinitions() throws Exception {
         XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new ResourceLoader());
         xmlBeanDefinitionReader.loadBeanDefinitions(configLocation);
         if (!xmlBeanDefinitionReader.getRegistry().isEmpty()) {

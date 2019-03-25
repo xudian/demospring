@@ -1,6 +1,7 @@
 package com.dingdong.beans.factory;
 
 import com.dingdong.beans.BeanDefinition;
+import com.dingdong.beans.BeanPostProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class AbstractBeanFactory implements BeanFactory {
 
-    private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
+    private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
-    private final List<String> beanDefinitionNames = new ArrayList<String>();
+    private final List<String> beanDefinitionNames = new ArrayList<>();
+
+    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     public Object getBean(String beanName) {
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
@@ -29,7 +32,13 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         Object bean = beanDefinition.getBean();
         if (bean == null) {
             bean = doCreateBean(beanDefinition);
+            try {
+               bean = initializeBean(bean,beanName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        beanDefinition.setBean(bean);
         return bean;
     }
 
@@ -55,4 +64,34 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      * @date: 2019/3/20 11:44
      */
     protected abstract Object doCreateBean(BeanDefinition beanDefinition);
+
+
+    protected Object initializeBean(Object bean,String name) throws Exception {
+        for (BeanPostProcessor beanPostProcessor : beanPostProcessors) {
+            bean = beanPostProcessor.postProcessBeforeInitialization(bean,name);
+        }
+
+        // TODO:call initialize method
+        for (BeanPostProcessor beanPostProcessor : beanPostProcessors) {
+            bean = beanPostProcessor.postProcessAfterInitialization(bean, name);
+        }
+        return bean;
+    }
+
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    public List getBeanByType (Class clazz) {
+        List beans = new ArrayList<>();
+        for (String beanName : beanDefinitionNames) {
+            if (beanDefinitionMap.get(beanName) != null) {
+                if (clazz.isAssignableFrom(beanDefinitionMap.get(beanName).getBeanClass())) {
+                    beans.add(getBean(beanName));
+                }
+            }
+        }
+        return beans;
+    }
+
 }

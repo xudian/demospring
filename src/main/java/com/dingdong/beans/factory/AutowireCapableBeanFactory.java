@@ -1,5 +1,6 @@
 package com.dingdong.beans.factory;
 
+import com.dingdong.aop.BeanFactoryAware;
 import com.dingdong.beans.BeanDefinition;
 import com.dingdong.BeanReference;
 import com.dingdong.beans.PropertyValue;
@@ -34,6 +35,9 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory {
     }
 
     protected void applyPropertyValues(Object bean, BeanDefinition mbd) throws Exception {
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware)bean).setBeanFactory(this);
+        }
         if (mbd.getPropertyValues() != null && mbd.getPropertyValues().getPropertyValueList().size() > 0) {
             for (PropertyValue propertyValue : mbd.getPropertyValues().getPropertyValueList()) {
                 Field declaredField = bean.getClass().getDeclaredField(propertyValue.getName());
