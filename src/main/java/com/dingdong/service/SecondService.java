@@ -13,5 +13,5 @@ import org.slf4j.LoggerFactory;
  */
 public interface SecondService {
 
-    public void sayWelcome(String text);
+    void sayWelcome(String text);
 }
